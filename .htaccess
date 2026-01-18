@@ -1,7 +1,11 @@
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /gestion-canchas/
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
+    RewriteEngine On
+    
+    # 1. Si entras a la raíz, te manda directo a public/index.php
+    RewriteRule ^$ public/index.php [L]
+
+    # 2. Si pides algo que no existe, también lo manda a public/index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
 </IfModule>
