@@ -1,103 +1,47 @@
 <?php
+// app/core/Database.php
 
 class Database {
-    
     private $conexion;
-    private $servidor = "DESKTOP-GE79NBB";
-    private $usuario = "sa";
-    private $password = "@Danny@110404";
-    private $base_datos = "gestion_canchas";
 
     public function __construct() {
+        $dsn = "mysql:host=" . DB_SERVIDOR . ";dbname=" . DB_NOMBRE . ";charset=" . DB_CHARSET;
+        $opciones = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ];
+
         try {
-            // Intentar conectar con SQL Server
-            $this->conexion = new PDO(
-                "sqlsrv:Server=" . $this->servidor . ";Database=" . $this->base_datos,
-                $this->usuario,
-                $this->password,
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-            );
+            $this->conexion = new PDO($dsn, DB_USUARIO, DB_PASSWORD, $opciones);
         } catch (PDOException $e) {
             die("Error de conexión: " . $e->getMessage());
         }
     }
 
-    /**
-     * Ejecuta una consulta SELECT
-     * @param string $query Consulta SQL con placeholders (?)
-     * @param array $params Parámetros para la consulta
-     * @return array|false Resultados o false si hay error
-     */
+    // SELECT
     public function select($query, $params = []) {
         try {
             $stmt = $this->conexion->prepare($query);
             $stmt->execute($params);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
-            error_log("Error en SELECT: " . $e->getMessage());
             return false;
         }
     }
 
-    /**
-     * Ejecuta una consulta INSERT
-     * @param string $query Consulta SQL con placeholders (?)
-     * @param array $params Parámetros para la consulta
-     * @return bool True si se inserta, false si hay error
-     */
+    // INSERT
     public function insert($query, $params = []) {
         try {
             $stmt = $this->conexion->prepare($query);
             return $stmt->execute($params);
         } catch (PDOException $e) {
-            error_log("Error en INSERT: " . $e->getMessage());
             return false;
         }
     }
 
-    /**
-     * Ejecuta una consulta UPDATE
-     * @param string $query Consulta SQL con placeholders (?)
-     * @param array $params Parámetros para la consulta
-     * @return bool True si se actualiza, false si hay error
-     */
-    public function update($query, $params = []) {
-        try {
-            $stmt = $this->conexion->prepare($query);
-            return $stmt->execute($params);
-        } catch (PDOException $e) {
-            error_log("Error en UPDATE: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Ejecuta una consulta DELETE
-     * @param string $query Consulta SQL con placeholders (?)
-     * @param array $params Parámetros para la consulta
-     * @return bool True si se elimina, false si hay error
-     */
-    public function delete($query, $params = []) {
-        try {
-            $stmt = $this->conexion->prepare($query);
-            return $stmt->execute($params);
-        } catch (PDOException $e) {
-            error_log("Error en DELETE: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Obtiene el último ID insertado
-     */
+    // Obtener último ID
     public function lastInsertId() {
         return $this->conexion->lastInsertId();
-    }
-
-    /**
-     * Cierra la conexión
-     */
-    public function cerrar() {
-        $this->conexion = null;
     }
 }

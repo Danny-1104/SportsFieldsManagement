@@ -13,13 +13,12 @@
         <div class="nav-container">
             <div class="logo">
                 <div class="logo-icon"></div>
-                <span>Canchas Premium</span>
+                <span>Patos Sport</span>
             </div>
             <ul class="nav-links">
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#canchas">Canchas</a></li>
-                <li><a href="#campeonatos">Campeonatos</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#agenda">Agenda</a></li> <li><a href="#contacto">Contacto</a></li>
                 <li><a href="index.php?controller=Auth&action=login" class="btn-login">Iniciar Sesión</a></li>
                 <li><a href="index.php?controller=Auth&action=register" class="btn-login">Registrarse</a></li>
             </ul>
@@ -130,76 +129,125 @@
         </div>
     </section>
 
-    <section class="stats">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <h2>+500</h2>
-                <p>Partidos Mensuales</p>
+    <section id="agenda" style="background: #0a0a0a; padding: 6rem 2rem; border-top: 1px solid #333;">
+        <div class="container" style="max-width: 1000px; margin: 0 auto;">
+            
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: 2.5rem; color: white; text-transform: uppercase; font-weight: 900; margin-bottom: 0.5rem;">
+                    Reserva de <span style="color: var(--primary);">Canchas</span>
+                </h2>
+                <p style="color: #888;">Consulta los horarios ocupados. Solo se muestran las reservas confirmadas.</p>
             </div>
-            <div class="stat-item">
-                <h2>3</h2>
-                <p>Canchas Pro</p>
+
+            <div style="background: #151515; border-radius: 15px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; min-width: 600px; color: #fff;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--primary);">
+                            <th style="text-align: left; padding: 1.2rem; color: var(--primary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Fecha</th>
+                            <th style="text-align: left; padding: 1.2rem; color: var(--primary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Horario</th>
+                            <th style="text-align: left; padding: 1.2rem; color: var(--primary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Cancha</th>
+                            <th style="text-align: right; padding: 1.2rem; color: var(--primary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (isset($agenda) && !empty($agenda)): ?>
+                            <?php foreach ($agenda as $partido): ?>
+                                <?php 
+                                    // Formatear Fecha y Hora
+                                    $fechaObj = new DateTime($partido['alq_fecha']);
+                                    $horaIni = substr($partido['alq_hora_ini'], 0, 5);
+                                    $horaFin = substr($partido['alq_hora_fin'], 0, 5);
+                                ?>
+                                <tr style="border-bottom: 1px solid #333;">
+                                    <td style="padding: 1.2rem; font-weight: 600;">
+                                        <i class="far fa-calendar-alt" style="color: #666; margin-right: 8px;"></i>
+                                        <?= $fechaObj->format('d/m/Y') ?>
+                                    </td>
+                                    <td style="padding: 1.2rem;">
+                                        <span style="background: #222; padding: 5px 12px; border-radius: 4px; font-size: 0.9rem; border: 1px solid #333;">
+                                            <?= $horaIni ?> - <?= $horaFin ?>
+                                        </span>
+                                    </td>
+                                    <td style="padding: 1.2rem; color: #ccc;">
+                                        <?= htmlspecialchars($partido['can_nombre']) ?>
+                                    </td>
+                                    <td style="padding: 1.2rem; text-align: right;">
+                                        <span style="color: #000; background: var(--primary); font-weight: 800; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;">
+                                            OCUPADO
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="4" style="padding: 4rem; text-align: center; color: #666;">
+                                    <i class="far fa-calendar-check" style="font-size: 3rem; margin-bottom: 1rem; color: #333;"></i>
+                                    <p>No hay reservas aprobadas próximas.</p>
+                                    <p style="color: var(--primary);">¡La cancha está libre para ti!</p>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
             </div>
-            <div class="stat-item">
-                <h2>+50</h2>
-                <p>Torneos Realizados</p>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="index.php?controller=Auth&action=register" class="btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem; box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);">
+                    <i class="fas fa-futbol" style="margin-right: 10px;"></i> ¡Quiero Reservar!
+                </a>
             </div>
-            <div class="stat-item">
-                <h2>100%</h2>
-                <p>Seguridad</p>
-            </div>
+
         </div>
     </section>
 
-    <section class="campeonatos" id="campeonatos">
-        <h2 class="section-title">Torneos en Curso</h2>
-        <div class="campeonatos-grid">
-            <div class="campeonato-card">
-                <div class="campeonato-header">
-                    <i class="fas fa-trophy"></i>
-                    <h3>Liga de Verano 2026</h3>
-                    <p>Fase de Grupos</p>
+ <footer class="footer" id="contacto">
+        <div class="footer-container">
+            
+            <div class="footer-col">
+                <h3>Canchas Premium</h3>
+                <p class="owner-tag">
+                    <i class="fas fa-user-tie"></i> Prop. Milton Montaluisa
+                </p>
+                <p class="footer-desc">
+                    El mejor espacio deportivo para disfrutar con amigos y familia en el Valle.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contacto y Ubicación</h4>
+                <div class="contact-row">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>098 457 7224</span>
                 </div>
-                <div class="campeonato-body">
-                    <h4><i class="fas fa-list-ol"></i> Tabla General</h4>
-                    <ul class="team-list">
-                        <li><span>1.</span> Águilas FC <span style="margin-left:auto; color:white">13 pts</span></li>
-                        <li><span>2.</span> Tigres United <span style="margin-left:auto; color:white">11 pts</span></li>
-                        <li><span>3.</span> Leones FC <span style="margin-left:auto; color:white">10 pts</span></li>
-                        <li><span>4.</span> Dragones <span style="margin-left:auto; color:white">8 pts</span></li>
-                    </ul>
+                <div class="contact-btn-area">
+                    <a href="https://maps.app.goo.gl/2dPURPXLbCVnn1de7" target="_blank" class="map-btn">
+                        <i class="fas fa-map-marked-alt"></i> Ver Ubicación en Maps
+                    </a>
                 </div>
             </div>
 
-            <div class="campeonato-card">
-                <div class="campeonato-header" style="background: linear-gradient(135deg, #0d2818 0%, #000 100%);">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Copa Relámpago</h3>
-                    <p>Inscripciones Abiertas</p>
-                </div>
-                <div class="campeonato-body">
-                    <h4><i class="fas fa-info-circle"></i> Detalles</h4>
-                    <ul class="team-list">
-                        <li><i class="fas fa-calendar"></i> Inicio: 15 de Febrero</li>
-                        <li><i class="fas fa-users"></i> Cupos: 4 equipos restantes</li>
-                        <li><i class="fas fa-dollar-sign"></i> Premio: $1000 USD</li>
-                        <li><i class="fas fa-clock"></i> Sábados 8:00 PM</li>
-                    </ul>
+            <div class="footer-col">
+                <h4>Síguenos</h4>
+                <div class="social-links">
+                    <a href="https://vm.tiktok.com/ZMDkhc2pL/" target="_blank" class="social-btn tiktok" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://wa.me/593984577224" target="_blank" class="social-btn whatsapp" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="social-btn facebook" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-btn instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                 </div>
             </div>
+
         </div>
-    </section>
 
-    <footer class="footer" id="contacto">
-        <div class="footer-content">
-            <h3>Canchas Premium</h3>
-            <p>Tu pasión por el fútbol merece el mejor escenario.</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <p style="margin-top: 3rem; font-size: 0.8rem; opacity: 0.5;">© 2026 Canchas Premium. Todos los derechos reservados.</p>
+        <div class="footer-bottom">
+            <p>© 2026 Canchas Premium. Todos los derechos reservados.</p>
         </div>
     </footer>
 </body>

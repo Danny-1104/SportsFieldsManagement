@@ -1,4 +1,4 @@
-/* Archivo: public/assets/css/landing.css */
+/* Archivo: public/assets/css/landinghome.css */
 
 :root {
   --primary: #00ff88;
@@ -23,7 +23,7 @@ body {
   background: var(--dark-bg);
 }
 
-/* NAVBAR */
+/* --- NAVBAR --- */
 .navbar {
   background: rgba(0, 0, 0, 0.95);
   padding: 1rem 0;
@@ -100,10 +100,10 @@ body {
   color: #000;
 }
 
-/* HERO SECTION - RUTA DE IMAGEN CORREGIDA */
+/* --- HERO SECTION --- */
 .hero {
-  /* NOTA: ../img sube un nivel desde la carpeta css y entra a img */
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 50, 25, 0.7)),
+  background:
+    linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 50, 25, 0.7)),
     url("../img/home/cancha_hero.avif");
   background-size: cover;
   background-position: center;
@@ -172,7 +172,7 @@ body {
   box-shadow: 0 10px 25px rgba(0, 255, 136, 0.5);
 }
 
-/* CARACTERÍSTICAS */
+/* --- CARACTERÍSTICAS --- */
 .features {
   padding: 6rem 2rem;
   background: var(--dark-bg);
@@ -243,7 +243,7 @@ body {
   color: #aaa;
 }
 
-/* GALERÍA DE CANCHAS */
+/* --- GALERÍA DE CANCHAS --- */
 .canchas-gallery {
   padding: 6rem 2rem;
   background: var(--light-bg);
@@ -396,162 +396,177 @@ body {
   color: #000;
 }
 
-/* ESTADÍSTICAS */
-.stats {
-  background: #111;
-  padding: 4rem 2rem;
-  color: #fff;
-  border-top: 1px solid #333;
-  border-bottom: 1px solid #333;
-  position: relative;
-  overflow: hidden;
+/* --- FOOTER PROFESIONAL --- */
+.footer {
+  background: #050505; /* Negro profundo */
+  color: #ccc;
+  padding: 4rem 2rem 1rem;
+  border-top: 4px solid var(--primary);
 }
 
-.stats-grid {
+.footer-container {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* 3 Columnas iguales en PC */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 3rem;
-  text-align: center;
-  position: relative;
-  z-index: 1;
+  text-align: left;
 }
 
-.stat-item h2 {
-  font-size: 3.5rem;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--primary);
-  margin-bottom: 0.5rem;
-  font-weight: 900;
-}
-
-.stat-item p {
-  font-size: 1.2rem;
+/* Títulos Footer */
+.footer-col h3 {
   color: #fff;
-  font-weight: 600;
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
+  font-weight: 900;
   letter-spacing: 1px;
 }
 
-/* CAMPEONATOS */
-.campeonatos {
-  padding: 6rem 2rem;
-  background: var(--dark-bg);
+.footer-col h4 {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
-.campeonatos-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.campeonato-card {
-  background: var(--dark-card);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  border: 1px solid #333;
-  transition: transform 0.3s;
-}
-
-.campeonato-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--primary);
-}
-
-.campeonato-header {
-  background: linear-gradient(135deg, #1a4d2e 0%, #000 100%);
-  padding: 2rem;
+/* Propietario */
+.owner-tag {
   color: #fff;
-  text-align: center;
-  border-bottom: 2px solid var(--primary);
-}
-
-.campeonato-header i {
-  font-size: 3rem;
+  font-weight: 600;
+  font-size: 1rem;
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.owner-tag i {
   color: var(--primary);
 }
 
-.campeonato-body {
-  padding: 2rem;
+.footer-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  opacity: 0.7;
 }
 
-.team-list {
-  list-style: none;
+/* Contacto y Mapa */
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #fff;
+  font-weight: bold;
+}
+.contact-row i {
+  color: var(--primary);
+}
+
+.contact-btn-area {
   margin-top: 1rem;
 }
 
-.team-list li {
-  padding: 0.8rem;
-  border-bottom: 1px solid #333;
-  display: flex;
+.map-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
-  color: #ccc;
-}
-
-.team-list li i {
-  color: var(--primary);
-}
-
-/* FOOTER */
-.footer {
-  background: #151515;
-  color: #888;
-  padding: 4rem 2rem;
-  text-align: center;
-  border-top: 1px solid #333;
-}
-
-.footer-content h3 {
+  gap: 8px;
+  background: #222;
   color: #fff;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #333;
+  transition: all 0.3s ease;
 }
 
+.map-btn:hover {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+}
+
+/* Redes Sociales */
 .social-links {
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-  font-size: 1.5rem;
+  gap: 12px;
 }
 
-.social-links a {
-  color: #fff;
-  transition: color 0.3s, transform 0.3s;
-  background: #222;
-  width: 50px;
-  height: 50px;
+.social-btn {
+  width: 45px;
+  height: 45px;
+  background: #1a1a1a;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+  text-decoration: none;
+  border: 1px solid #333;
 }
 
-.social-links a:hover {
-  color: #000;
-  background: var(--primary);
+.social-btn:hover {
   transform: translateY(-5px);
+  color: white;
+  border-color: transparent;
 }
 
-/* RESPONSIVE */
+/* Efectos de color */
+.social-btn.tiktok:hover {
+  background: #000;
+  box-shadow:
+    -2px -2px 0 #25f4ee,
+    2px 2px 0 #fe2c55;
+}
+.social-btn.whatsapp:hover {
+  background: #25d366;
+  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+}
+.social-btn.facebook:hover {
+  background: #1877f2;
+  box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3);
+}
+.social-btn.instagram:hover {
+  background: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  box-shadow: 0 5px 15px rgba(214, 36, 159, 0.3);
+}
+
+/* Copyright */
+.footer-bottom {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #1a1a1a;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* --- RESPONSIVE GENERAL --- */
 @media (max-width: 900px) {
   .cancha-row {
     flex-direction: column;
   }
-
   .cancha-img-wrapper {
     height: 250px;
     min-height: 250px;
   }
-
   .cancha-specs {
     grid-template-columns: 1fr;
   }
@@ -575,26 +590,16 @@ body {
   .hero-content {
     text-align: center;
   }
-}
 
-/* Estilos para pantallas de autenticación (login / register) */
-.auth-page { min-height:100vh; display:flex; align-items:center; justify-content:center; background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.8)); }
-.auth-card { background: #fff; color: #111; width: 420px; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.35); }
-.auth-tabs { display:flex; gap:0.5rem; margin-bottom:1.2rem; }
-.tab { flex:1; text-align:center; padding:0.8rem 1rem; border-radius: 999px; cursor:pointer; font-weight:700; }
-.tab.active { background: #f4f6f8; color: #111; box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
-.auth-title { text-align:center; font-size:1.6rem; font-weight:900; margin-bottom:0.2rem; }
-.auth-sub { text-align:center; color:#777; margin-bottom:1.2rem; }
-.form-group { margin-bottom:1rem; }
-.form-group label { display:block; margin-bottom:0.4rem; color:#333; font-weight:600; }
-.form-control { width:100%; padding:0.9rem 1rem; border-radius:10px; border:1px solid #e6e6e6; outline:none; }
-.form-control:focus { box-shadow: 0 6px 18px rgba(0,255,136,0.08); border-color: var(--primary); }
-.btn-auth { width:100%; padding:0.9rem; border-radius:40px; border:none; background:var(--primary); color:#000; font-weight:800; cursor:pointer; margin-top:0.6rem; }
-.switch-link { text-align:center; margin-top:0.8rem; color:#666; font-size:0.95rem; }
-.eye-btn { background:transparent; border:none; position:absolute; right:12px; top:36px; cursor:pointer; }
-.input-wrap { position:relative; }
-
-@media (max-width: 480px) {
-  .auth-card { width: 92%; padding:1.2rem; }
-  .auth-title { font-size:1.2rem; }
+  /* Ajustes Footer Móvil */
+  .footer-container {
+    text-align: center;
+  }
+  .owner-tag,
+  .contact-row {
+    justify-content: center;
+  }
+  .social-links {
+    justify-content: center;
+  }
 }
