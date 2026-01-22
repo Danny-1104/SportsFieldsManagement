@@ -1,11 +1,17 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # 1. Si entras a la raíz, te manda directo a public/index.php
+    # 1. Servir assets y uploads desde la carpeta public/
+    RewriteRule ^(assets|uploads|favicon\.ico)(.*)$ public/$1$2 [L,NC]
+
+    # 2. Si entras a la raíz, te manda directo a public/index.php
     RewriteRule ^$ public/index.php [L]
 
-    # 2. Si pides algo que no existe, también lo manda a public/index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # 3. Si el archivo o carpeta existe en la raíz, servirlo normalmente
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 4. De lo contrario, reenviar todo a public/index.php (Front Controller)
     RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
 </IfModule>
