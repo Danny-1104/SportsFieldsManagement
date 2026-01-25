@@ -4,9 +4,10 @@
 class Usuario {
     private $db;
 
-    public function __construct($database) {
-        $this->db = $database;
-    }
+public function __construct($database) {
+    $this->db = $database;
+}
+
 
     // --- CÓDIGO EXISTENTE (Registro y Login) ---
 
@@ -98,4 +99,9 @@ class Usuario {
         // Usamos insert porque tu clase Database usa 'execute' dentro de insert, sirve para DELETE también
         return $this->db->insert($sql, [$id]); 
     }
+    //metodo actualizar 
+    public function actualizar($id, $nombre, $correo) {
+    $sql = "UPDATE usuario SET nombre_usu = ?, correo_usu = ? WHERE id_usu = ?";
+    return $this->db->insert($sql, [$nombre, $correo, $id]); // Tu DB usa insert para ejecutar
+}
 }

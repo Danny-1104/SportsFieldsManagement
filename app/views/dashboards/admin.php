@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Administrador | Mi Panel</title>
@@ -66,16 +67,18 @@
               </li>
 
               <li class="nav-item">
-                <a href="index.php?controller=Config&action=horarios" class="nav-link">
+                <a href="index.php?controller=Horarios&action=index" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Gestión Horario</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="index.php?controller=Config&action=estados" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Gestión Estado</p>
-                </a>
+              
+                <li class="nav-item">
+  <a href="index.php?controller=Estados&action=index" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Gestión Estado</p>
+  </a>
+</li>
               </li>
               <li class="nav-item">
                 <a href="index.php?controller=Canchas&action=index" class="nav-link">
@@ -239,4 +242,18 @@
 <script src="assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/adminlte/dist/js/adminlte.min.js"></script>
 </body>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const msg = urlParams.get('msg');
+    
+    if (msg === 'save_ok') {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Cancha Registrada!',
+            text: 'Los datos se guardaron correctamente.',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    }
+</script>
 </html>
