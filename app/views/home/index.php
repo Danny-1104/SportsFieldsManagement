@@ -19,8 +19,8 @@
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#canchas">Canchas</a></li>
                 <li><a href="#agenda">Agenda</a></li> <li><a href="#contacto">Contacto</a></li>
-                <li><a href="index.php?controller=Auth&action=login" class="btn-login">Iniciar Sesión</a></li>
-                <li><a href="index.php?controller=Auth&action=register" class="btn-login">Registrarse</a></li>
+                <li><a href="index.php?controller=Auth&action=login" class="btn-login"><i class="fas fa-user"></i>  Iniciar Sesión</a></li>
+                <li><a href="index.php?controller=Auth&action=register" class="btn-login"><i class="fas fa-user-plus"></i> Registrarse</a></li>
             </ul>
         </div>
     </nav>
