@@ -12,19 +12,16 @@ class CanchasController extends Controller {
 
     public function guardar() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Capturamos los datos usando los nombres del 'name' del HTML
         $nombre = $_POST['can_nombre'] ?? '';
         $precio = $_POST['can_precio_hora'] ?? 0;
-        $desc   = $_POST['can_descripcion'] ?? '';
 
         $canchaModel = $this->model('Cancha');
         
-        if ($canchaModel->registrar($nombre, $precio, $desc)) {
-            // Redirigir con mensaje de éxito
+        // Enviamos solo los dos parámetros que el modelo espera ahora
+        if ($canchaModel->registrar($nombre, $precio)) {
             header("Location: index.php?controller=Canchas&action=index&msg=save_ok");
-            exit(); // IMPORTANTE: Detiene la ejecución para que la cabecera funcione
+            exit(); 
         } else {
-            // Si falla el insert en la DB
             header("Location: index.php?controller=Canchas&action=index&msg=error");
             exit();
         }
