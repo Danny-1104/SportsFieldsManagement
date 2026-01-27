@@ -41,6 +41,11 @@
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Error:</strong> El horario seleccionado ya está ocupado. Por favor, elige otro horario.
             </div>
+        <?php elseif(isset($_GET['error']) && $_GET['error'] == 'duracion_invalida'): ?>
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Error:</strong> La duración debe ser al menos 1 hora. La hora de fin debe ser posterior a la de inicio.
+            </div>
         <?php endif; ?>
         <div class="row">
             <div class="col-md-8 offset-md-2">
@@ -114,7 +119,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-success">Guardar Reserva</button>
+                            <button type="submit" class="btn btn-success" onclick="return validarFormulario()">Guardar Reserva</button>
                             <a href="index.php?controller=Dashboard&action=cliente" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
@@ -160,13 +165,36 @@ function calcularPrecio() {
         // Diferencia en horas
         let diff = (d2 - d1) / 1000 / 60 / 60;
         
-        if (diff < 0) diff = 0; // Evitar negativos si ponen la hora al revés
-
-        const total = diff * precioPorHora;
-        inputTotal.value = total.toFixed(2);
+        if (diff >= 1) {
+            const total = diff * precioPorHora;
+            inputTotal.value = total.toFixed(2);
+        } else {
+            inputTotal.value = '0.00';
+        }
     } else {
         inputTotal.value = '0.00';
     }
+}
+
+function validarFormulario() {
+    const ini = document.getElementById('hora_ini').value;
+    const fin = document.getElementById('hora_fin').value;
+
+    if (!ini || !fin) {
+        alert('Por favor, selecciona hora de inicio y fin.');
+        return false;
+    }
+
+    const d1 = new Date("2000-01-01 " + ini);
+    const d2 = new Date("2000-01-01 " + fin);
+    const diff = (d2 - d1) / 1000 / 60 / 60;
+
+    if (diff < 1) {
+        alert('La hora de fin debe ser al menos 1 hora después de la hora de inicio.');
+        return false;
+    }
+
+    return true;
 }
 </script>
 </body>

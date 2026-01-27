@@ -50,6 +50,12 @@ class AlquilerController extends Controller {
             $d1 = new DateTime($hora_ini);
             $d2 = new DateTime($hora_fin);
             $diff = $d2->diff($d1)->h;
+
+            if ($diff < 1) {
+                header('Location: index.php?controller=Alquiler&action=crear&error=duracion_invalida');
+                exit;
+            }
+
             $valor_calculado = $diff * $precioHora;
             
             // Procesar Archivo (Comprobante)
