@@ -3,7 +3,6 @@
 
 class Database {
     private $conexion;
-
     public function __construct() {
         $dsn = "mysql:host=" . DB_SERVIDOR . ";dbname=" . DB_NOMBRE . ";charset=" . DB_CHARSET;
         $opciones = [
