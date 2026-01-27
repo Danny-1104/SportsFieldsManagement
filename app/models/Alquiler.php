@@ -13,7 +13,7 @@ class Alquiler {
         $sqlDinero = "SELECT SUM(alq_valor) as total_dinero FROM alquiler WHERE id_usu = ? AND est_id IN (2, 3)";
         $resDinero = $this->db->select($sqlDinero, [$id_usuario]);
 
-        $sqlHoras = "SELECT SUM(TIMESTAMPDIFF(HOUR, alq_hora_ini, alq_hora_fin)) as total_horas FROM alquiler WHERE id_usu = ? AND est_id IN (2, 3)";
+        $sqlHoras = "SELECT SUM(TIMESTAMPDIFF(HOUR, alq_hora_ini, alq_hora_fin)) as total_horas FROM alquiler WHERE id_usu = ?";
         $resHoras = $this->db->select($sqlHoras, [$id_usuario]);
 
         return [
@@ -30,7 +30,7 @@ class Alquiler {
                 FROM alquiler a
                 JOIN cancha c ON a.can_id = c.can_id
                 JOIN estado e ON a.est_id = e.est_id
-                WHERE a.id_usu = ?
+                WHERE a.id_usu = ? AND a.alq_fecha >= DATE_SUB(CURDATE(), INTERVAL 10 DAY)
                 ORDER BY a.alq_fecha DESC, a.alq_hora_ini DESC
                 LIMIT $limite";
         
@@ -39,11 +39,16 @@ class Alquiler {
 
     // --- CLIENTE: FORMULARIO DE RESERVA (RF-CLI-02) ---
     
-    // 1. Obtener precio por hora global
-    public function obtenerPrecioHora() {
-        $sql = "SELECT valor_hora FROM configuracion LIMIT 1";
-        $res = $this->db->select($sql);
-        return $res[0]['valor_hora'] ?? 15.00; // Si no hay config, cobra $15 por defecto
+    // 1. Obtener precio por hora de una cancha
+    public function obtenerPrecioCancha($can_id) {
+        $sql = "SELECT can_precio_hora FROM cancha WHERE can_id = ?";
+        $res = $this->db->select($sql, [$can_id]);
+        return $res[0]['can_precio_hora'] ?? 0.00;
+    }
+
+    // 2. Obtener lista de horarios
+    public function obtenerHorarios() {
+        return $this->db->select("SELECT * FROM horario ORDER BY hor_nombre");
     }
 
     // 2. Obtener lista de canchas
@@ -51,26 +56,13 @@ class Alquiler {
         return $this->db->select("SELECT * FROM cancha");
     }
 
-    // 3. Guardar la reserva (INSERT)
-    public function registrarAlquiler($datos) {
-        $sql = "INSERT INTO alquiler (id_usu, can_id, est_id, alq_fecha, alq_hora_ini, alq_hora_fin, alq_valor, alq_comprobante) 
-                VALUES (?, ?, 1, ?, ?, ?, ?, ?)";
-        // est_id = 1 significa "Registrado" (Pendiente) automáticamente
-        
-        $params = [
-            $datos['id_usu'],
-            $datos['can_id'],
-            $datos['fecha'],
-            $datos['hora_ini'],
-            $datos['hora_fin'],
-            $datos['valor'],
-            $datos['comprobante']
-        ];
-        
-        // Usamos query/execute directamente porque insert no devuelve filas
-        $this->db->query($sql);
-        foreach ($params as $k => $v) $this->db->bind($k+1, $v);
-        return $this->db->execute();
+    // 4. Verificar si hay conflicto de horarios (RF-CLI-02)
+    public function verificarConflicto($can_id, $fecha, $hora_ini, $hora_fin) {
+        $sql = "SELECT COUNT(*) as conflictos FROM alquiler 
+                WHERE can_id = ? AND alq_fecha = ? AND est_id IN (2, 3) 
+                AND alq_hora_ini < ? AND alq_hora_fin > ?";
+        $res = $this->db->select($sql, [$can_id, $fecha, $hora_fin, $hora_ini]);
+        return $res[0]['conflictos'] > 0;
     }
 
     // --- PÚBLICO: AGENDA HOME ---

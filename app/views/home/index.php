@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include '../app/views/layouts/favicon.php'; ?>
     <title>Canchas Premium - Reserva tu Cancha</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/landinghome.css">
@@ -12,22 +13,24 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <div class="logo-icon"></div>
+             <img src="assets/img/minilogo.png" alt="Logo" class="mi-logo-img">
                 <span>Patos Sport</span>
-            </div>
+            </div>  
             <ul class="nav-links">
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#canchas">Canchas</a></li>
-                <li><a href="#agenda">Agenda</a></li> <li><a href="#contacto">Contacto</a></li>
-                <li><a href="index.php?controller=Auth&action=login" class="btn-login"><i class="fas fa-user"></i>  Iniciar Sesión</a></li>
-                <li><a href="index.php?controller=Auth&action=register" class="btn-login"><i class="fas fa-user-plus"></i> Registrarse</a></li>
+                <li><a href="#torneos">Torneos</a></li>
+                <li><a href="#agenda">Agenda</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="index.php?controller=Auth&action=login" class="btn-login">Iniciar Sesión</a></li>
+                <li><a href="index.php?controller=Auth&action=register" class="btn-login">Registrarse</a></li>
             </ul>
         </div>
     </nav>
 
     <section class="hero" id="inicio">
         <div class="hero-content">
-            <p class="hero-subtitle">¡Reserva tu cancha sintética en el Valle!</p>
+            <p class="hero-subtitle">¡Reserva tu cancha sintética!</p>
             <h1>Futbol en estado puro<br><span style="color: var(--primary)">Día y Noche</span></h1>
             <p>Disfruta de instalaciones profesionales, iluminación LED y el mejor ambiente deportivo. Organiza tu partido de fútbol 7 o fútbol 9 hoy mismo.</p>
             <a href="index.php?controller=Auth&action=register" class="btn-primary">Reservar Ahora <i class="fas fa-arrow-right"></i></a>
@@ -64,74 +67,86 @@
         <p class="section-subtitle">Conoce nuestras instalaciones</p>
         <h2 class="section-title dark">NUESTRAS CANCHAS</h2>
         
-        <div class="gallery-list">
+        <div class="slider-container">
+            <div class="mySlides fade">
+                <img src="assets/img/home/cancha1.png" alt="Cancha Patos Foto 1">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/img/home/cancha2.png" alt="Cancha Patos Foto 2">
+            </div>
+            <div class="mySlides fade">
+                <img src="assets/img/home/cancha3.png" alt="Cancha Patos Foto 3">
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+        <br>
+
+        <br>
+
+        <div class="cancha-info-detalle">
+            <h3>Cancha Patos</h3>
+            <p>
+                Diseñada para el alto rendimiento. Nuestra cancha principal ofrece una experiencia de juego superior gracias a su 
+                <strong>césped sintético Monofilamento de 60mm</strong>. 
+                Garantizamos un rebote natural, menor impacto físico y un entorno seguro para disfrutar del mejor fútbol.
+            </p>
             
-            <div class="cancha-row">
-                <div class="cancha-img-wrapper">
-                    <span class="cancha-label">La Favorita</span>
-                    <img src="assets/img/home/cancha1.jpg" alt="Cancha Estadio">
-                </div>
-                <div class="cancha-info-wrapper">
-                    <h3 class="cancha-title">Cancha A - Estadio</h3>
-                    <p class="cancha-desc">
-                        Nuestra cancha principal diseñada para fútbol 9. Cuenta con graderías para 200 personas y es el escenario principal de nuestras finales de campeonato. El césped es de última generación (60mm).
-                    </p>
-                    <div class="cancha-specs">
-                        <div class="spec-item"><i class="fas fa-ruler-combined"></i> Medidas: 45m x 25m</div>
-                        <div class="spec-item"><i class="fas fa-users"></i> Capacidad: 9 vs 9</div>
-                        <div class="spec-item"><i class="fas fa-lightbulb"></i> Iluminación: LED 500 Lux</div>
-                        <div class="spec-item"><i class="fas fa-shoe-prints"></i> Césped: Monofilamento</div>
-                    </div>
-                    <a href="index.php?controller=Auth&action=register" class="btn-reserve-small">Ver Disponibilidad</a>
-                </div>
+            <div class="features-list">
+                <span><i class="fas fa-lightbulb"></i> Iluminación LED Antideslumbrante</span>
+                <span><i class="fas fa-cloud-rain"></i> Drenaje Pluvial Avanzado</span>
+                <span><i class="fas fa-ruler-combined"></i> Medidas Reglamentarias (F7 / F9)</span>
+                <span><i class="fas fa-parking"></i> Parqueadero Privado</span>
             </div>
-
-            <div class="cancha-row">
-                <div class="cancha-img-wrapper">
-                    <span class="cancha-label">Entrenamiento</span>
-                    <img src="assets/img/home/cancha2.jpg" alt="Cancha Técnica">
-                </div>
-                <div class="cancha-info-wrapper">
-                    <h3 class="cancha-title">Cancha B - Técnica</h3>
-                    <p class="cancha-desc">
-                        Ideal para partidos rápidos de 7 vs 7. Es la preferida para entrenamientos tácticos y partidos entre amigos entre semana. Mantiene la misma calidad de superficie que la cancha principal.
-                    </p>
-                    <div class="cancha-specs">
-                        <div class="spec-item"><i class="fas fa-ruler-combined"></i> Medidas: 35m x 18m</div>
-                        <div class="spec-item"><i class="fas fa-users"></i> Capacidad: 7 vs 7</div>
-                        <div class="spec-item"><i class="fas fa-stopwatch"></i> Marcador Digital</div>
-                        <div class="spec-item"><i class="fas fa-wifi"></i> Zona WiFi</div>
-                    </div>
-                    <a href="index.php?controller=Auth&action=register" class="btn-reserve-small">Ver Disponibilidad</a>
-                </div>
-            </div>
-
-            <div class="cancha-row">
-                <div class="cancha-img-wrapper">
-                    <span class="cancha-label">Indoor / Lluvia</span>
-                    <img src="assets/img/home/cancha3.jpg" alt="Cancha Techada">
-                </div>
-                <div class="cancha-info-wrapper">
-                    <h3 class="cancha-title">Cancha C - Techada</h3>
-                    <p class="cancha-desc">
-                        No dejes que la lluvia suspenda tu partido. Nuestra cancha techada ofrece protección total contra el clima, con ventilación natural para evitar el exceso de calor. Perfecta para fútbol rápido 5 vs 5.
-                    </p>
-                    <div class="cancha-specs">
-                        <div class="spec-item"><i class="fas fa-ruler-combined"></i> Medidas: 28m x 15m</div>
-                        <div class="spec-item"><i class="fas fa-users"></i> Capacidad: 5 vs 5</div>
-                        <div class="spec-item"><i class="fas fa-umbrella"></i> 100% Cubierta</div>
-                        <div class="spec-item"><i class="fas fa-music"></i> Audio Integrado</div>
-                    </div>
-                    <a href="index.php?controller=Auth&action=register" class="btn-reserve-small">Ver Disponibilidad</a>
-                </div>
-            </div>
-
         </div>
     </section>
 
-    <section id="agenda" style="background: #0a0a0a; padding: 6rem 2rem; border-top: 1px solid #333;">
-        <div class="container" style="max-width: 1000px; margin: 0 auto;">
+    <section id="torneos" style="padding: 4rem 0; background-color: #111;">
+        <div class="container">
+            <h2 class="section-title" style="color: white; margin-bottom: 2rem;">Torneos Realizados</h2>
             
+            <div class="gallery-grid" style="margin-bottom: 4rem;">
+                <div class="gallery-item">
+                    <img src="assets/img/home/equipo1.jpg" alt="Foto Torneo 1" onerror="this.src='https://via.placeholder.com/400x300?text=Torneo+1'">
+                    <div class="gallery-overlay">Sub50</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/home/equipo2.jpg" alt="Foto Torneo 2" onerror="this.src='https://via.placeholder.com/400x300?text=Torneo+2'">
+                    <div class="gallery-overlay">Sub50</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/home/equipo3.jpg" alt="Foto Torneo 3" onerror="this.src='https://via.placeholder.com/400x300?text=Torneo+3'">
+                    <div class="gallery-overlay">Sub50</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/home/equipo4.jpg" alt="Foto Torneo 4" onerror="this.src='https://via.placeholder.com/400x300?text=Torneo+4'">
+                    <div class="gallery-overlay">Sub50</div>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="color: var(--primary); margin-bottom: 2rem;">Partidos Grabados</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <video controls muted>
+                        <source src="assets/img/home/video1.mp4" type="video/mp4">
+                        Tu navegador no soporta videos.
+                    </video>
+                    <div class="gallery-overlay">Resumen Final</div>
+                </div>
+                <div class="gallery-item">
+                    <video controls muted>
+                        <source src="assets/img/home/video2.mp4" type="video/mp4">
+                        Tu navegador no soporta videos.
+                    </video>
+                    <div class="gallery-overlay">Mejores Goles</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="agenda" style="background: #0a0a0acf; padding: 6rem 2rem; border-top: 1px solid #333;">
+        <div class="container" style="max-width: 1000px; margin: 0 auto;">
             <div style="text-align: center; margin-bottom: 3rem;">
                 <h2 style="font-size: 2.5rem; color: white; text-transform: uppercase; font-weight: 900; margin-bottom: 0.5rem;">
                     Reserva de <span style="color: var(--primary);">Canchas</span>
@@ -153,7 +168,6 @@
                         <?php if (isset($agenda) && !empty($agenda)): ?>
                             <?php foreach ($agenda as $partido): ?>
                                 <?php 
-                                    // Formatear Fecha y Hora
                                     $fechaObj = new DateTime($partido['alq_fecha']);
                                     $horaIni = substr($partido['alq_hora_ini'], 0, 5);
                                     $horaFin = substr($partido['alq_hora_fin'], 0, 5);
@@ -202,7 +216,6 @@
 
  <footer class="footer" id="contacto">
         <div class="footer-container">
-            
             <div class="footer-col">
                 <h3>Canchas Premium</h3>
                 <p class="owner-tag">
@@ -212,7 +225,6 @@
                     El mejor espacio deportivo para disfrutar con amigos y familia en el Valle.
                 </p>
             </div>
-
             <div class="footer-col">
                 <h4>Contacto y Ubicación</h4>
                 <div class="contact-row">
@@ -225,7 +237,6 @@
                     </a>
                 </div>
             </div>
-
             <div class="footer-col">
                 <h4>Síguenos</h4>
                 <div class="social-links">
@@ -243,12 +254,30 @@
                     </a>
                 </div>
             </div>
-
         </div>
-
         <div class="footer-bottom">
             <p>© 2026 Canchas Premium. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            if (n > slides.length) {slideIndex = 1}    
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slides[slideIndex-1].style.display = "block";  
+        }
+    </script>
 </body>
 </html>

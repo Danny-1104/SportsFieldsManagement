@@ -18,11 +18,11 @@ class AlquilerController extends Controller {
         $modelo = new Alquiler($this->db);
         
         $canchas = $modelo->obtenerCanchas();
-        $precioHora = $modelo->obtenerPrecioHora();
+        $horarios = $modelo->obtenerHorarios();
         
         $this->view('alquiler/crear', [
             'canchas' => $canchas,
-            'precioHora' => $precioHora,
+            'horarios' => $horarios,
             'usuario_nombre' => $_SESSION['usuario_nombre']
         ]);
     }
@@ -37,7 +37,20 @@ class AlquilerController extends Controller {
             $fecha = $_POST['fecha'];
             $hora_ini = $_POST['hora_ini'];
             $hora_fin = $_POST['hora_fin'];
-            $valor_calculado = $_POST['valor_total']; // Viene del JS, pero idealmente se recalcula en backend por seguridad
+
+            // Verificar conflicto de horarios
+            if ($modelo->verificarConflicto($cancha, $fecha, $hora_ini, $hora_fin)) {
+                // Error: Horario ocupado
+                header('Location: index.php?controller=Alquiler&action=crear&error=horario_ocupado');
+                exit;
+            }
+
+            // Calcular valor basado en precio de cancha y duración
+            $precioHora = $modelo->obtenerPrecioCancha($cancha);
+            $d1 = new DateTime($hora_ini);
+            $d2 = new DateTime($hora_fin);
+            $diff = $d2->diff($d1)->h;
+            $valor_calculado = $diff * $precioHora;
             
             // Procesar Archivo (Comprobante)
             $archivoNombre = '';

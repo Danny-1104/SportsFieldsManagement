@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cliente | Mi Panel</title>
-
+<?php include '../app/views/layouts/favicon.php'; ?>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="assets/adminlte/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="assets/adminlte/dist/css/adminlte.min.css">
@@ -57,7 +57,7 @@
           <li class="nav-item">
             <a href="index.php?controller=Alquiler&action=crear" class="nav-link">
               <i class="nav-icon fas fa-calendar-plus"></i>
-              <p>Nueva Reserva</p>
+              <p>Arrendar Cancha</p>
             </a>
           </li>
           <li class="nav-item">
@@ -90,7 +90,7 @@
             <div class="small-box bg-info">
               <div class="inner">
                 <h3><?= $stats['horas'] ?></h3>
-                <p>Horas Jugadas</p>
+                <p># Horas Alquiladas</p>
               </div>
               <div class="icon">
                 <i class="fas fa-clock"></i>
@@ -101,7 +101,7 @@
             <div class="small-box bg-success">
               <div class="inner">
                 <h3>$<?= number_format($stats['dinero'], 2) ?></h3>
-                <p>Dinero Invertido</p>
+                <p>Valor Pagado</p>
               </div>
               <div class="icon">
                 <i class="fas fa-dollar-sign"></i>
@@ -114,16 +114,17 @@
           <div class="col-lg-12">
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h5 class="m-0">Mis Últimos Alquileres</h5>
+                <h5 class="m-0">Historial Reciente (últimos 10 días)</h5>
               </div>
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
                             <th>Fecha</th>
-                            <th>Horario</th>
                             <th>Cancha</th>
-                            <th>Pago</th> <th>Valor</th>
+                            <th>Hora Inicial</th>
+                            <th>Hora Final</th>
+                            <th>Pago</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
@@ -132,8 +133,9 @@
                             <?php foreach ($historial as $reserva): ?>
                             <tr>
                                 <td><?= $reserva['alq_fecha'] ?></td>
-                                <td><?= substr($reserva['alq_hora_ini'], 0, 5) ?> - <?= substr($reserva['alq_hora_fin'], 0, 5) ?></td>
                                 <td><?= $reserva['can_nombre'] ?></td>
+                                <td><?= substr($reserva['alq_hora_ini'], 0, 5) ?></td>
+                                <td><?= substr($reserva['alq_hora_fin'], 0, 5) ?></td>
                                 <td>
                                     <?php if(!empty($reserva['alq_comprobante'])): ?>
                                         <a href="uploads/comprobantes/<?= $reserva['alq_comprobante'] ?>" target="_blank" class="btn btn-xs btn-outline-info">
@@ -143,12 +145,12 @@
                                         <span class="text-muted text-xs">Sin archivo</span>
                                     <?php endif; ?>
                                 </td>
-                                <td>$<?= $reserva['alq_valor'] ?></td>
                                 <td>
                                     <?php 
                                         $badgeColor = 'secondary';
                                         if($reserva['est_nombre'] == 'Aprobado') $badgeColor = 'success';
                                         if($reserva['est_nombre'] == 'Registrado') $badgeColor = 'warning';
+                                        if($reserva['est_nombre'] == 'Finalizado') $badgeColor = 'primary';
                                         if($reserva['est_nombre'] == 'Cancelado') $badgeColor = 'danger';
                                     ?>
                                     <span class="badge badge-<?= $badgeColor ?>">
@@ -159,14 +161,14 @@
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6" class="text-center text-muted">Aún no tienes reservas registradas.</td>
+                                <td colspan="6" class="text-center text-muted">No tienes reservas en los últimos 10 días.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
               </div>
               <div class="card-footer">
-                  <a href="index.php?controller=Alquiler&action=crear" class="btn btn-primary">Reservar Nueva Cancha</a>
+                  <a href="index.php?controller=Alquiler&action=crear" class="btn btn-primary">Arrendar Nueva Cancha</a>
               </div>
             </div>
           </div>

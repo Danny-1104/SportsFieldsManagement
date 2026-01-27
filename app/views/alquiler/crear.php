@@ -36,6 +36,12 @@
 
     <section class="content">
       <div class="container-fluid">
+        <?php if(isset($_GET['error']) && $_GET['error'] == 'horario_ocupado'): ?>
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Error:</strong> El horario seleccionado ya está ocupado. Por favor, elige otro horario.
+            </div>
+        <?php endif; ?>
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 
@@ -47,9 +53,10 @@
                             
                             <div class="form-group">
                                 <label>1. Selecciona la Cancha</label>
-                                <select name="cancha" class="form-control" required>
+                                <select name="cancha" id="cancha" class="form-control" required onchange="cargarPrecio()">
+                                    <option value="">Selecciona una cancha</option>
                                     <?php foreach($canchas as $c): ?>
-                                        <option value="<?= $c['can_id'] ?>"><?= $c['can_nombre'] ?></option>
+                                        <option value="<?= $c['can_id'] ?>" data-precio="<?= $c['can_precio_hora'] ?>"><?= $c['can_nombre'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -63,24 +70,34 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Hora Inicio</label>
-                                        <input type="time" name="hora_ini" id="hora_ini" class="form-control" required onchange="calcularPrecio()">
+                                        <select name="hora_ini" id="hora_ini" class="form-control" required onchange="calcularPrecio()">
+                                            <option value="">Selecciona hora inicio</option>
+                                            <?php foreach($horarios as $h): ?>
+                                                <option value="<?= $h['hor_nombre'] ?>"><?= $h['hor_nombre'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Hora Fin</label>
-                                        <input type="time" name="hora_fin" id="hora_fin" class="form-control" required onchange="calcularPrecio()">
+                                        <select name="hora_fin" id="hora_fin" class="form-control" required onchange="calcularPrecio()">
+                                            <option value="">Selecciona hora fin</option>
+                                            <?php foreach($horarios as $h): ?>
+                                                <option value="<?= $h['hor_nombre'] ?>"><?= $h['hor_nombre'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Valor a Pagar ($)</label>
+                                <label>Valor de Hora ($)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                     <input type="text" name="valor_total" id="valor_total" class="form-control" readonly value="0.00">
                                 </div>
-                                <small class="text-muted">Tarifa por hora: $<?= $precioHora ?></small>
+                                <small class="text-muted" id="tarifa">Selecciona una cancha para ver la tarifa por hora.</small>
                             </div>
 
                             <div class="form-group">
@@ -120,14 +137,22 @@ $(function () {
   bsCustomFileInput.init(); // Para que el input file se vea bonito
 });
 
-const precioPorHora = <?= $precioHora ?>;
+let precioPorHora = 0;
+
+function cargarPrecio() {
+    const canchaSelect = document.getElementById('cancha');
+    const selectedOption = canchaSelect.options[canchaSelect.selectedIndex];
+    precioPorHora = parseFloat(selectedOption.getAttribute('data-precio')) || 0;
+    document.getElementById('tarifa').textContent = `Tarifa por hora: $${precioPorHora.toFixed(2)}`;
+    calcularPrecio();
+}
 
 function calcularPrecio() {
     const ini = document.getElementById('hora_ini').value;
     const fin = document.getElementById('hora_fin').value;
     const inputTotal = document.getElementById('valor_total');
 
-    if(ini && fin) {
+    if(ini && fin && precioPorHora > 0) {
         // Convertir horas a objetos fecha para restar
         const d1 = new Date("2000-01-01 " + ini);
         const d2 = new Date("2000-01-01 " + fin);
@@ -139,6 +164,8 @@ function calcularPrecio() {
 
         const total = diff * precioPorHora;
         inputTotal.value = total.toFixed(2);
+    } else {
+        inputTotal.value = '0.00';
     }
 }
 </script>
