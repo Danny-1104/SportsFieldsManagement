@@ -34,7 +34,20 @@ class Controller {
             if (!empty($datos)) {
                 extract($datos);
             }
+            // Renderizar la vista en un buffer para poder inyectar el favicon
+            ob_start();
             require_once '../app/views/' . $vista . '.php';
+            $output = ob_get_clean();
+
+            // Etiqueta del favicon (ruta relativa a public/ desde vistas)
+            $faviconTag = '<link rel="icon" type="image/jpg" href="assets/img/favicon.jpg">';
+
+            // Si la vista contiene un </head>, insertamos el favicon justo antes
+            if (stripos($output, '</head>') !== false) {
+                $output = str_ireplace('</head>', $faviconTag . "\n</head>", $output);
+            }
+
+            echo $output;
         } else {
             die('La vista ' . $vista . ' no existe.');
         }
