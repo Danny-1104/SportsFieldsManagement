@@ -42,10 +42,10 @@
                     <div class="error-msg"><i class="fas fa-exclamation-circle"></i> Código incorrecto o expirado</div>
                 <?php endif; ?>
 
-                <form action="index.php?controller=Auth&action=verificaremail" method="POST">
+                <form id="verify-form" action="index.php?controller=Auth&action=verificaremail" method="POST">
                     <div class="form-group">
                         <label><i class="fas fa-key"></i> Código de Verificación</label>
-                        <input class="form-control" type="text" name="codigo" placeholder="XXXXXXXX" required maxlength="8" autocomplete="off" style="text-align: center; letter-spacing: 3px; font-weight: bold; text-transform: uppercase;">
+                        <input id="codigo-input" class="form-control" type="text" name="codigo" placeholder="XXXXXXXX" required maxlength="8" autocomplete="off" style="text-align: center; letter-spacing: 3px; font-weight: bold; text-transform: uppercase;" oninput="this.value = this.value.toUpperCase();">
                         <small style="display: block; margin-top: 0.5rem; color: #999; text-align: center;">Revisa tu email si no ves el código</small>
                     </div>
 
@@ -64,5 +64,17 @@
     </div>
 
     <script src="assets/js/auth.js"></script>
+    <script>
+        // Normalizar el código antes de enviar: quitar espacios y forzar mayúsculas
+        (function(){
+            var form = document.getElementById('verify-form');
+            var input = document.getElementById('codigo-input');
+            if(form && input){
+                form.addEventListener('submit', function(e){
+                    input.value = input.value.trim().toUpperCase();
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
