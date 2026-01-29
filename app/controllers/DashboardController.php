@@ -1,17 +1,14 @@
 <?php
 // app/controllers/DashboardController.php
 
-// Cargamos el modelo para poder mostrar las estadísticas
 require_once '../app/models/Alquiler.php'; 
+require_once '../app/models/Usuario.php'; // <--- 1. IMPORTANTE: Cargar modelo Usuario
 
 class DashboardController extends Controller {
     
     public function __construct() {
-        // 1. ¡ESTA ES LA LÍNEA MÁGICA QUE FALTABA!
-        // Inicializa la base de datos ($this->db) del Controlador padre
         parent::__construct();
 
-        // 2. Ahora sí, verificamos seguridad
         if (!isset($_SESSION['autenticado']) || !$_SESSION['autenticado']) {
             header('Location: index.php?controller=Auth&action=login');
             exit;
@@ -37,11 +34,9 @@ class DashboardController extends Controller {
             return;
         }
 
-        // Instanciamos el modelo pasando la conexión (que ahora sí existe)
         $alquilerModel = new Alquiler($this->db);
         $id_usuario = $_SESSION['usuario_id'];
 
-        // Obtenemos datos
         $stats = $alquilerModel->obtenerEstadisticasCliente($id_usuario);
         $historial = $alquilerModel->obtenerUltimosAlquileres($id_usuario);
 
@@ -60,13 +55,42 @@ class DashboardController extends Controller {
         }
 
         $alquilerModel = new Alquiler($this->db);
+        $usuarioModel = new Usuario($this->db); // <--- 2. Instanciar Modelo Usuario
+        
+        // 1. Estadísticas Generales (Canchas, Ingresos, Reservas)
         $stats = $alquilerModel->obtenerEstadisticasGlobales();
-        $pendientes = $alquilerModel->obtenerPendientesAprobacion();
+
+        // 3. AGREGAMOS EL CONTEO DE USUARIOS A $stats
+        // Esto soluciona que la tarjeta salga en 0
+       $stats['usuarios'] = $usuarioModel->contarClientes();
+
+        // 2. Tabla de Historial
+        $historial = $alquilerModel->obtenerTodosLosAlquileres();
+
+        // 3. DATOS PARA EL GRÁFICO
+        $datosGrafico = $alquilerModel->obtenerUsosPorMes();
+        
+        $labels = [];
+        $data = [];
+        $nombresMeses = [
+            '01' => 'Ene', '02' => 'Feb', '03' => 'Mar', '04' => 'Abr',
+            '05' => 'May', '06' => 'Jun', '07' => 'Jul', '08' => 'Ago',
+            '09' => 'Sep', '10' => 'Oct', '11' => 'Nov', '12' => 'Dic'
+        ];
+
+        foreach ($datosGrafico as $fila) {
+            $anio = substr($fila['periodo'], 0, 4);
+            $mes = substr($fila['periodo'], 5, 2);
+            $labels[] = $nombresMeses[$mes] . " " . $anio;
+            $data[] = $fila['total'];
+        }
 
         $this->view('dashboards/admin', [
             'stats' => $stats,
-            'pendientes' => $pendientes,
-            'usuario_nombre' => $_SESSION['usuario_nombre']
+            'historial' => $historial,
+            'usuario_nombre' => $_SESSION['usuario_nombre'],
+            'graficoLabels' => json_encode($labels), 
+            'graficoData' => json_encode($data)
         ]);
     }
 

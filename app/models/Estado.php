@@ -1,4 +1,6 @@
 <?php
+// app/models/Estado.php
+
 class Estado {
     private $db;
 
@@ -11,15 +13,26 @@ class Estado {
         return $this->db->select($sql);
     }
 
-    public function registrar($nombre) {
-        // Validamos duplicados antes de insertar
-        $sqlCheck = "SELECT COUNT(*) as total FROM estado WHERE est_nombre = ?";
-        $check = $this->db->select($sqlCheck, [$nombre]);
+    // --- NUEVO ---
+    public function obtenerPorId($id) {
+        $sql = "SELECT * FROM estado WHERE est_id = ?";
+        $res = $this->db->select($sql, [$id]);
+        return $res[0] ?? null;
+    }
 
+    public function guardar($nombre) {
+        $sqlCheck = "SELECT count(*) as total FROM estado WHERE est_nombre = ?";
+        $check = $this->db->select($sqlCheck, [$nombre]);
         if ($check[0]['total'] > 0) return false;
 
         $sql = "INSERT INTO estado (est_nombre) VALUES (?)";
         return $this->db->insert($sql, [$nombre]);
+    }
+
+    // --- NUEVO ---
+    public function actualizar($id, $nombre) {
+        $sql = "UPDATE estado SET est_nombre = ? WHERE est_id = ?";
+        return $this->db->insert($sql, [$nombre, $id]);
     }
 
     public function eliminar($id) {
