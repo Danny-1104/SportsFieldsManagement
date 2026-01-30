@@ -123,7 +123,7 @@
             
             <div class="card-footer bg-white py-3 border-top-0">
                 <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">Total Registros: <strong><?= count($usuarios) ?></strong></small>
+                    <small class="text-muted">Total Registros: <strong><?= (is_array($usuarios) || $usuarios instanceof Countable) ? count($usuarios) : 0 ?></strong></small>
                 </div>
             </div>
 

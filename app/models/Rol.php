@@ -10,12 +10,13 @@ class Rol {
 
     // Obtener usuarios con su rol actual
     public function obtenerUsuariosConRoles() {
-        $sql = "SELECT u.id_usu, u.nombre_usu, u.created_at, r.id_rol, r.nombre_rol 
-                FROM usuario u
+        $sql = "SELECT u.id_usu, u.nombre_usu, r.id_rol, r.nombre_rol 
+            FROM usuario u
                 INNER JOIN usuario_rol ur ON u.id_usu = ur.id_usu
                 INNER JOIN rol r ON ur.id_rol = r.id_rol
                 ORDER BY u.id_usu ASC";
-        return $this->db->select($sql);
+        $res = $this->db->select($sql);
+        return $res ?: [];
     }
 
     // Lista de roles para el select
@@ -26,12 +27,13 @@ class Rol {
 
     // Datos para el formulario de edición
     public function obtenerUsuarioPorId($id) {
-        $sql = "SELECT u.id_usu, u.nombre_usu, u.created_at, ur.id_rol 
-                FROM usuario u
+        $sql = "SELECT u.id_usu, u.nombre_usu, ur.id_rol 
+            FROM usuario u
                 INNER JOIN usuario_rol ur ON u.id_usu = ur.id_usu
                 WHERE u.id_usu = ?";
         $res = $this->db->select($sql, [$id]);
-        return $res[0] ?? null;
+        if (is_array($res) && isset($res[0])) return $res[0];
+        return null;
     }
 
     // Actualizar SOLO el rol en la tabla intermedia

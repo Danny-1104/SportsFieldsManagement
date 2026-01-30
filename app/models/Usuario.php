@@ -10,13 +10,15 @@ class Usuario {
 
     // --- 1. OBTENER CLIENTES (Con Fecha de Registro) ---
     public function obtenerTodos() {
-        // Traemos created_at para mostrar la fecha
-        $sql = "SELECT u.id_usu, u.nombre_usu, u.correo_usu, u.password_usu, u.created_at
+        // Selección de campos (omitimos created_at en caso de que no exista en la tabla)
+        $sql = "SELECT u.id_usu, u.nombre_usu, u.correo_usu, u.password_usu
                 FROM usuario u
                 INNER JOIN usuario_rol ur ON u.id_usu = ur.id_usu
                 WHERE ur.id_rol = 3 
                 ORDER BY u.id_usu DESC";
-        return $this->db->select($sql);
+        $res = $this->db->select($sql);
+        // Si la consulta falla, select() devuelve false: devolvemos un array vacío
+        return $res ?: [];
     }
 
     // --- 2. OBTENER UN USUARIO POR ID ---
